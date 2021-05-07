@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    @keyframes move {
+  from {
+    offset-distance: 0%;
+    transform: scale(1);
+  }
+
+  to {
+    offset-distance: 100%;
+    transform: scale(0);
+  }
+}
+
+
+#offsetElement {
+  top: 50%;
+  left: 50%;
+  width: 140px;
+  height: 50px;
+  position: absolute;
+  border-radius: 10px;
+  background-color: rgb(13, 215, 241);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translateX(-50%);
+}
+
+#offsetElement.clicked{
+  background-color: rgb(45, 49, 49);
+  color: #fff;
+}
+
+img{
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  position: absolute;
+  right: 14px;
+  offset-path: path("M4,10 q240,46 -120,-20 q500,600 160,0");
+  
+}
+img.active{
+  animation:move 2s forwards ease-in-out ;
+}
+  </style>
+</head>
+<body>
+  <div id="offsetElement">
+    <span id="innerText">SEND</span>
+    <img src="../static/img/send.svg" id="plane" alt="图标">
+  </div>
+  <script>
+    let sendBtn = document.querySelector('#offsetElement')
+    let plane = document.querySelector('#plane')
+    let text = document.querySelector('#innerText')
+    sendBtn.addEventListener('click',function(e){
+      console.log(e.target.classList)
+      plane.classList.add('active')
+      setTimeout(()=>{
+        sendBtn.classList.add('clicked')
+      text.innerHTML = 'RECEIVED'
+      },2000)
+    })
+  </script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!-- @format -->
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<script src="./jquery-3.5.0.min.js"></script>
+		<link rel="stylesheet" href="./index.css" />
+	</head>
+
+	<body>
+		<div class="container">
+			<h1>bilibili</h1>
+			<form action="">
+				<input class="tbx" type="text" placeholder="用户名" />
+				<input class="tbx" type="password" placeholder="密码" />
+				<input class="sub" type="submit" value="确定" />
+			</form>
+		</div>
+		<script>
+			let con = document.querySelector('.container')
+			// 定义两个函数开关（门）
+			let isIn = true //鼠标进去的门，默认打开
+			let isOut = false //鼠标出去的门，默认关闭
+			var span
+			con.addEventListener('mouseenter', (e) => {
+				if (isIn) {
+					let inx = e.clientX - e.target.offsetLeft
+					let iny = e.clientY - e.target.offsetTop
+					let el = document.createElement('span')
+					el.style.top = iny + 'px'
+					el.style.left = inx + 'px'
+
+					con.appendChild(el)
+					$('.container span').removeClass('out')
+					$('.container span').addClass('in')
+					span = document.querySelector('.container span')
+					isIn = false //关闭进来的门（不能使用进入的方法）
+					isOut = true //打开出去的门（可以使用出去的方法）
+				}
+			})
+
+			con.addEventListener('mouseleave', (e) => {
+				if (isOut) {
+					let inx = e.clientX - e.target.offsetLeft
+					let iny = e.clientY - e.target.offsetTop
+					$('.container span').removeClass('in')
+					$('.container span').addClass('out')
+					$('.out').css('left', inx + 'px') //添加出去的坐标
+					$('.out').css('top', iny + 'px')
+					isOut = false
+					setTimeout(() => {
+						con.removeChild(span) //删除元素
+						isIn = true //打开进来的大门
+					}, 500)
+				}
+			})
+		</script>
+	</body>
+</html>
