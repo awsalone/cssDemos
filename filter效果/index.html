@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      list-style: none;
+    }
+
+    /* html{
+      filter: grayscale(1);
+    } */
+    /* 电影谢幕效果 */
+    .movie_container {
+      width: 600px;
+      height: 400px;
+      position: relative;
+    }
+
+    .movie_pic {
+      width: 100%;
+      height: 100%;
+      background: url('../static/img/frog_forest.jpg') no-repeat;
+      background-size: cover;
+      animation: movieImg-fade 2.5s linear forwards;
+
+    }
+
+    .movie_text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      line-height: 55px;
+      color: #fff;
+      font-size: 36px;
+      text-align: center;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      animation: movieTxt-show 2.5s cubic-bezier(.74, -0.1, .86, .83) forwards;
+    }
+
+    @keyframes movieImg-fade {
+      30% {
+        filter: brightness(1);
+      }
+
+      100% {
+        filter: brightness(0);
+      }
+    }
+
+    @keyframes movieTxt-show {
+      20% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+
+    /*模糊效果*/
+    .card {
+      display: flex;
+      height: 500px;
+      width: 900px;
+      padding: 10px 0;
+      background-color: rgba(18, 97, 128, .9);
+      z-index: -999;
+    }
+
+    .cardItem {
+      flex: 1;
+      margin-left: 20px;
+      border-radius: 20px;
+      position: relative;
+      z-index: 1;
+      /*为伪类添加zinedx:-1,cardItem本身的zindex似乎也受到了影响？*/
+    }
+
+    .cardItem:last-child {
+      margin-right: 20px;
+      background-size: cover;
+    }
+
+    .cardItem>p {
+      color: #fff;
+      text-align: center;
+    }
+
+    .cardItem>p:first-child {
+      font-size: 36px;
+    }
+
+    .cardItem:before {
+      content: '';
+      z-index: -1;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 20px;
+      transition: filter 200ms linear, transform 200ms linear;
+    }
+
+    .cardItem:first-child::before {
+      background: url('../static/img/lake.jpg') no-repeat;
+      background-size: cover;
+    }
+
+    .cardItem:nth-child(2)::before {
+      background: url('../static/img/path.jpg') no-repeat;
+      background-size: cover;
+    }
+
+    .cardItem:last-child::before {
+      background: url('../static/img/river.jpg') no-repeat;
+      background-size: cover;
+    }
+
+    .card:hover>.cardItem:not(:hover)::before {
+      filter: blur(5px) opacity(.8) brightness(.8);
+    }
+
+    .cardItem:hover:before {
+      transform: scale(1.1);
+    }
+
+    /*融合效果*/
+    .mix_container {
+      /*
+      父元素需提供背景颜色
+      设置contrast
+      */
+      background: #fff;
+      width: 600px;
+      height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      filter: contrast(30);
+    }
+
+    .circle {
+      /*融合元素设置blur*/
+      border-radius: 50%;
+      position: absolute;
+      filter: blur(10px)
+    }
+
+    .circle-1 {
+      width: 90px;
+      height: 90px;
+      background: #03a9f4;
+      transform: translate(-50px);
+      animation: 2s mix-moving linear infinite alternate-reverse;
+    }
+
+    .circle-2 {
+      width: 60px;
+      height: 60px;
+      background: #0000ff;
+      transform: translate(50px);
+      animation: 2s mix-moving linear infinite alternate;
+    }
+
+    @keyframes mix-moving {
+      0% {
+        transform: translate(50px);
+      }
+
+      100% {
+        transform: translate(-50px);
+      }
+    }
+
+    .mix-loading-container {
+      background: #fff;
+      width: 600px;
+      height: 400px;
+      display: flex;
+      align-items: center;
+      filter: contrast(30);
+    }
+
+    .mix-loading-container>.circle {
+      height: 100px;
+      width: 120px;
+      background: #1aa7ff;
+      border-radius: 50%;
+      transform: scale(0.1);
+      filter: blur(20px);
+      position: absolute;
+      transform-origin: top left;
+    }
+
+    .mix-loading-container>.circle {
+      animation: mix-loading-move 4s cubic-bezier(.44, .79, .83, .96) infinite;
+    }
+
+    .mix-loading-container>.circle:nth-child(2) {
+      animation-delay: .4s;
+    }
+
+    .mix-loading-container>.circle:nth-child(3) {
+      animation-delay: .8s;
+    }
+
+    .mix-loading-container>.circle:nth-child(4) {
+      animation-delay: 1.2s;
+    }
+
+    .mix-loading-container>.circle:last-child {
+      animation-delay: 1.6s;
+    }
+
+    @keyframes mix-loading-move {
+      0% {
+        transform: translateX(50px) scale(.3);
+      }
+
+      45% {
+        transform: translateX(285px) scale(.8);
+      }
+
+      85% {
+        transform: translateX(500px) scale(.1);
+      }
+    }
+
+    .mix-text-container {
+      background: #000;
+      width: 500px;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      filter: contrast(30);
+    }
+
+    .mix-text-container>.text {
+      letter-spacing: -50px;
+      color: #fff;
+      font-size: 100px;
+      animation: mix-letter-extend 4s linear forwards;
+    }
+
+    @keyframes mix-letter-extend {
+      0% {
+        opacity: 0;
+        letter-spacing: -40px;
+        filter: blur(10px);
+      }
+
+      25% {
+        opacity: 1;
+      }
+
+      50% {
+        filter: blur(5px);
+      }
+
+      100% {
+        letter-spacing: 10px;
+        filter: blur(2px);
+      }
+    }
+
+    .container{
+   height: 520px;
+   width: 400px;
+   display: flex;
+   clip-path: inset(10px);
+   flex-direction: column;
+}
+img{
+  height: 50%;
+  width: 100%;
+}
+.reflect {
+  transform: translateY(-2px) scaleY(-1);
+  /* //对模拟倒影的元素应用svg filter
+  //url中对应的是上面svg filter的id */
+  filter: url(#displacement-wave-filter);  
+}
+
+  </style>
+</head>
+
+<body>
+  <h1>电影谢幕效果</h1>
+  <div class="movie_container">
+    <div class="movie_pic">
+
+    </div>
+    <div class="movie_text">
+      <p>叠叠青葱秀武夷,</p>
+      <br>
+      <p>云烟缥缈望中迷。</p>
+    </div>
+  </div>
+
+  <h1>模糊效果</h1>
+  <!-- 
+    为了避免影响文字效果，背景图及相关操作添加至cardItem伪类
+   -->
+  <div class="blur_container">
+    <ul class="card">
+      <li class="cardItem">
+        <p class="title">lake</p>
+        <p class="content">the lake</p>
+      </li>
+      <li class="cardItem">
+        <p class="title">path</p>
+        <p class="content">the path</p>
+      </li>
+      <li class="cardItem">
+        <p class="title">river</p>
+        <p class="content">the river</p>
+      </li>
+    </ul>
+  </div>
+
+  <h1>融合效果</h1>
+  <div class="mix_container">
+    <div class="circle circle-1"></div>
+    <div class="circle circle-2"></div>
+  </div>
+
+  <div class="mix-loading-container">
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+  </div>
+
+  <div class="mix-text-container">
+    <span class="text">fantastic</span>
+  </div>
+  
+  <h1>水波效果</h1>
+  <div class="container">
+    <img src="../static/img/frog_forest.jpg">
+    <img src="../static/img/frog_forest.jpg" class="reflect">
+  </div>
+  
+  <!--
+    详情见 https://www.zhangxinxu.com/wordpress/2020/10/svg-feturbulence/ 大佬链接
+    不太会，仅做记录
+  -->
+  <!--定义svg滤镜，这里使用的是feTurbulence滤镜-->
+  <svg width="0" height="0">
+      <filter id="displacement-wave-filter">
+      
+        <!--baseFrequency设置0.01 0.09两个值，代表x轴和y轴的噪声频率-->  
+        <feTurbulence baseFrequency="0.01 0.09">
+          
+          <!--这是svg动画的定义方式，通过动画不断改变baseFrequency的值，从而形成波动效果-->
+          <animate attributeName="baseFrequency"
+          dur="20s" keyTimes="0;0.5;1" values="0.01 0.09;0.02 0.13;0.01 0.09"
+          repeatCount="indefinite" ></animate>
+          
+        </feTurbulence>
+        <feDisplacementMap in="SourceGraphic" scale="10" /> 
+      </filter>
+  </svg>
+  <!--
+    参考 https://juejin.cn/post/7002829486806794276?utm_source=gold_browser_extension#heading-6
+  -->
+</body>
+
+</html>
